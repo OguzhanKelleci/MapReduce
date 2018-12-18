@@ -670,11 +670,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\okell\\Documents\\GitHub\\MapReduce\\Her.csproj",
+      "projectUniqueName": "C:\\Users\\okell\\Desktop\\School\\2e Leerjaar\\Her\\Her.csproj",
       "projectName": "Her",
-      "projectPath": "c:\\Users\\okell\\Documents\\GitHub\\MapReduce\\Her.csproj",
+      "projectPath": "C:\\Users\\okell\\Desktop\\School\\2e Leerjaar\\Her\\Her.csproj",
       "packagesPath": "C:\\Users\\okell\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\okell\\Documents\\GitHub\\MapReduce\\obj\\",
+      "outputPath": "C:\\Users\\okell\\Desktop\\School\\2e Leerjaar\\Her\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
