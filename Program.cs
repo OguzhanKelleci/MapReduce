@@ -38,9 +38,9 @@ namespace Her
             var q1 = db.EmployeeTable.Map(e => e);
 
             //SELECT id, name FROM Employee
-            var q2= MapReduceExtension.Map(db.EmployeeTable, e => e.Id);
+            var q2 = MapReduceExtension.Map(db.EmployeeTable, e => e.Id);
 
-            
+
 
         }
     }
@@ -76,43 +76,45 @@ namespace Her
         }
     }
 
-        class Employee
+    class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public double Salary { get; set; }
+
+        public Employee(int id, string name, string email, double salary)
         {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Email { get; set; }
-            public double Salary { get; set; }
-
-            public Employee(int id, string name, string email, double salary)
-            {
-                Id = id;
-                Name = name;
-                Email = email;
-                Salary = salary;
-            }
-
+            Id = id;
+            Name = name;
+            Email = email;
+            Salary = salary;
         }
 
-        class DB
-        {
-            public IEnumerable<Employee> EmployeeTable { get; set; }
-            public DB(IEnumerable<Employee> e)
-            {
-                EmployeeTable = e;
-            }
+    }
 
-            public static DB testDb(){
-                Employee[] le = new Employee[] {
+    class DB
+    {
+        public IEnumerable<Employee> EmployeeTable { get; set; }
+        public DB(IEnumerable<Employee> e)
+        {
+            EmployeeTable = e;
+        }
+
+        public static DB testDb()
+        {
+            Employee[] le = new Employee[] {
                     new Employee(1,"Sander", "Sander@test.com", 1200.00),
                     new Employee(1,"Tim", "tim@test.com", 1900.12),
                     new Employee(1,"Jan", "JAN@test.com", 2000.40),
                 };
 
-                return new DB(le);
-            }
-
+            return new DB(le);
         }
+
     }
 }
+
+
 
 
