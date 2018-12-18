@@ -8,6 +8,8 @@ namespace Her
     {
         static void Main(string[] args)
         {
+            System.Console.WriteLine("-------------SQUARE---------------");
+
             var x = Foo.square(new int[] { 1, 2, 35, 7 });
 
             foreach (var item in x)
@@ -25,7 +27,7 @@ namespace Her
                 System.Console.WriteLine(item);
             }
 
-            System.Console.WriteLine("-----------------------------");
+            System.Console.WriteLine("-----------------------------------");
 
 
             // #####################################
@@ -39,7 +41,7 @@ namespace Her
 
             //SELECT id, name FROM Employee
             var q2 = MapReduceExtension.Map(db.EmployeeTable, e => e.Id);
-
+            var q22 = db.EmployeeTable.Map(e => new {e.Id, e.Name});
 
 
         }
