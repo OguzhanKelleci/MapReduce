@@ -33,7 +33,7 @@ namespace Her
             return result;
         }
 
-        public static U Reduce<T,U>(this IEnumerable<T> table, U init,  Func<U,T,U> f ){
+        public static U Reduce<U,T>(this IEnumerable<T> table, U init,  Func<U,T,U> f ){
 
             U acc = init;
             for (int i = 0; i < table.Count(); i++)
