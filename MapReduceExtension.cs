@@ -45,5 +45,31 @@ namespace Her
 
             return acc;
         }
+
+        public static IEnumerable<Tuple<T1,T2>> Join<T1,T2>(this IEnumerable<T1> left, IEnumerable<T2> right, Func<T1,T2,bool> condition){
+            
+            return left.Reduce<List<Tuple<T1,T2>>, T1>(
+                new List<Tuple<T1,T2>>(),
+                (joinedTable, leftRow) => {
+                    var leftRowCombination = right.Reduce<List<Tuple<T1,T2>>,T2>(
+                        new List<Tuple<T1,T2>>(),
+                        (rowCombinations, rightRow) => {
+
+                            if(condition(leftRow,rightRow)){
+                                rowCombinations.Add(new Tuple<T1,T2>(leftRow,rightRow));
+                            }
+
+                            return rowCombinations;
+
+                        }
+
+                    );
+
+                    joinedTable.AddRange(leftRowCombination);
+
+                    return joinedTable;
+                } 
+            );
+        }
     }
 }

@@ -41,11 +41,11 @@ namespace Her
 
             //SELECT id, name FROM Employee
             var q2 = MapReduceExtension.Map(db.EmployeeTable, e => e.Id);
-            var q22 = db.EmployeeTable.Map(e => new Tuple<int,string>( e.Id, e.Name));
+            var q22 = db.EmployeeTable.Map(e => new Tuple<int, string>(e.Id, e.Name));
 
-            //select id,name FROM Empoloyee WHERE salary > 1500
+            //Select id,name FROM Empoloyee WHERE salary > 1500
 
-            var q33 = db.EmployeeTable.Filter(e => e.Salary > 1500.0).Map(e => new Tuple<int,string>(e.Id,e.Name));
+            var q33 = db.EmployeeTable.Filter(e => e.Salary > 1500.0).Map(e => new Tuple<int, string>(e.Id, e.Name));
 
 
             foreach (var item in q33)
@@ -55,10 +55,32 @@ namespace Her
 
             // SELECT Sum(Salary) From Employee Where salary > 1500.0
 
-            var q4 = db.EmployeeTable.Filter(e => e.Salary > 1500.0).Reduce(0.0, (sum,e) => sum + e.Salary);
+            var q4 = db.EmployeeTable.Filter(e => e.Salary > 1500.0).Reduce(0.0, (sum, e) => sum + e.Salary);
 
             System.Console.WriteLine(q4);
-                
+
+
+            //SELECT * FROM Employee Where Salary > 1500.0
+
+            var q5 = db.EmployeeTable.Reduce(
+            new List<Employee>(),
+            (el, e) =>
+            {
+                if (e.Salary > 1500)
+                {
+                    el.Add(e);
+
+                }
+                return el;
+            });
+
+            foreach (var item in q5)
+            {
+                System.Console.WriteLine($" {item.Id} {item.Name} {item.Email} {item.Salary}  ");   
+            }
+
+
+            // SELECT * FROM Employee, Task WHERE Empltoyee.Id == Task.EmployeeId
         }
     }
 
