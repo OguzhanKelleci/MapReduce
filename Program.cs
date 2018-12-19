@@ -33,7 +33,7 @@ namespace Her
             // #####################################
 
             var db = DB.testDb();
-
+            var db1 = DB.testDb();
             // SELECT * FROM Employee
 
             var q = MapReduceExtension.Map(db.EmployeeTable, e => e);
@@ -41,9 +41,24 @@ namespace Her
 
             //SELECT id, name FROM Employee
             var q2 = MapReduceExtension.Map(db.EmployeeTable, e => e.Id);
-            var q22 = db.EmployeeTable.Map(e => new {e.Id, e.Name});
+            var q22 = db.EmployeeTable.Map(e => new Tuple<int,string>( e.Id, e.Name));
+
+            //select id,name FROM Empoloyee WHERE salary > 1500
+
+            var q33 = db.EmployeeTable.Filter(e => e.Salary > 1500.0).Map(e => new Tuple<int,string>(e.Id,e.Name));
 
 
+            foreach (var item in q33)
+            {
+                System.Console.WriteLine(item);
+            }
+
+            // SELECT Sum(Salary) From Employee Where salary > 1500.0
+
+            var q4 = db.EmployeeTable.Filter(e => e.Salary > 1500.0).Reduce(0.0, (sum,e) => sum + e.Salary);
+
+            System.Console.WriteLine(q4);
+                
         }
     }
 
@@ -78,6 +93,22 @@ namespace Her
         }
     }
 
+    class Task
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+
+        public int EmployeeId { get; set; }
+
+        public Task(int id, string title, int eid)
+        {
+            Id = id;
+            Title = title;
+            EmployeeId = eid;
+        }
+
+    }
+
     class Employee
     {
         public int Id { get; set; }
@@ -98,9 +129,11 @@ namespace Her
     class DB
     {
         public IEnumerable<Employee> EmployeeTable { get; set; }
-        public DB(IEnumerable<Employee> e)
+        public IEnumerable<Task> TaskTable { get; set; }
+        public DB(IEnumerable<Employee> e, IEnumerable<Task> t)
         {
             EmployeeTable = e;
+            TaskTable = t;
         }
 
         public static DB testDb()
@@ -111,7 +144,12 @@ namespace Her
                     new Employee(1,"Jan", "JAN@test.com", 2000.40),
                 };
 
-            return new DB(le);
+            Task[] t = new Task[]{
+                new Task(1,"Instructions",1),
+                new Task(2,"Driving",3)
+            };
+
+            return new DB(le, t);
         }
 
     }

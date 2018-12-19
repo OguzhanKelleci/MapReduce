@@ -17,5 +17,33 @@ namespace Her
             }
             return result;
         }
+
+        public static IEnumerable<T> Filter<T>(this IEnumerable<T> table, Func<T,bool> condition ){
+            List<T> result = new List<T>();
+
+            for (int i = 0; i < table.Count(); i++)
+            {
+                if(condition(table.ElementAt(i))){
+
+                result.Add(table.ElementAt(i));
+                }
+            }
+
+
+            return result;
+        }
+
+        public static U Reduce<T,U>(this IEnumerable<T> table, U init,  Func<U,T,U> f ){
+
+            U acc = init;
+            for (int i = 0; i < table.Count(); i++)
+            {
+                acc = f(acc,table.ElementAt(i));
+            }
+
+
+
+            return acc;
+        }
     }
 }
