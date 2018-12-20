@@ -42,7 +42,6 @@ namespace Her
             }
 
 
-
             return acc;
         }
 

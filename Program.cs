@@ -27,41 +27,41 @@ namespace Her
                 System.Console.WriteLine(item);
             }
 
-            System.Console.WriteLine("-----------------------------------");
 
 
             // #####################################
 
             var db = DB.testDb();
-            var db1 = DB.testDb();
-            // SELECT * FROM Employee
 
+            // -------------MAP---------------
+
+            // SELECT * FROM Employee
             var q = MapReduceExtension.Map(db.EmployeeTable, e => e);
             var q1 = db.EmployeeTable.Map(e => e);
-
+            
             //SELECT id, name FROM Employee
             var q2 = MapReduceExtension.Map(db.EmployeeTable, e => e.Id);
             var q22 = db.EmployeeTable.Map(e => new Tuple<int, string>(e.Id, e.Name));
 
-            //Select id,name FROM Empoloyee WHERE salary > 1500
 
+
+            // -------------FILTER---------------     
+
+            // SELECT * FROM Employee WHERE Salary > 1500
+            var q3 = db.EmployeeTable.Filter(e => e.Salary > 1500.0);
+
+            //Select id,name FROM Empoloyee WHERE salary > 1500
             var q33 = db.EmployeeTable.Filter(e => e.Salary > 1500.0).Map(e => new Tuple<int, string>(e.Id, e.Name));
 
-
-            foreach (var item in q33)
-            {
-                System.Console.WriteLine(item);
-            }
-
             // SELECT Sum(Salary) From Employee Where salary > 1500.0
-
             var q4 = db.EmployeeTable.Filter(e => e.Salary > 1500.0).Reduce(0.0, (sum, e) => sum + e.Salary);
 
             System.Console.WriteLine(q4);
 
 
-            //SELECT * FROM Employee Where Salary > 1500.0
+            // -------------REDUCE--------------- 
 
+            //SELECT * FROM Employee Where Salary > 1500.0
             var q5 = db.EmployeeTable.Reduce(
             new List<Employee>(),
             (el, e) =>
@@ -74,13 +74,15 @@ namespace Her
                 return el;
             });
 
-            foreach (var item in q5)
-            {
-                System.Console.WriteLine($" {item.Id} {item.Name} {item.Email} {item.Salary}  ");   
-            }
+            // foreach (var item in q5)
+            // {
+            //     System.Console.WriteLine($"{item.Id} {item.Name} {item.Email} {item.Salary}");
+            // }
 
 
             // SELECT * FROM Employee, Task WHERE Empltoyee.Id == Task.EmployeeId
+            var q6 = db.EmployeeTable.Join(db.TaskTable, (e, t) => e.Id == t.EmployeeId);
+
         }
     }
 
